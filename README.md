@@ -1,1 +1,2 @@
-# gsbs_intro_optics
+[Huygen's Animation](huygens_animation.html)
+
