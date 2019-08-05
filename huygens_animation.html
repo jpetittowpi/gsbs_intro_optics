@@ -1,0 +1,284 @@
+<head>
+ <link rel="stylesheet" type="text/css" href="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css" />
+ <script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+</head>
+<body>
+<form><input type="button" value="next" onClick="nextStep()"></form>
+<div id="box" class="jxgbox" style="width:500px; height:500px;"></div>
+  <script type="text/javascript">
+    const board = JXG.JSXGraph.initBoard('box', {boundingbox: [0, 10, 20, -10],
+     keepaspectratio: true, axis: true, grid: true});
+
+// Step Tracker
+     var t = 0;
+
+// Original Wave Front Lines (Medium 1 w/ n1)
+   var n_mid = board.create('line', [[14,0],[8,6]], {straightFirst: false,
+     straightLast:true, strokecolor: 'grey'});
+   var n1_right = board.create('line', [[15,5],[14,6]], {
+     straightFirst: true, straightLast: true, strokecolor: 'grey'});
+   var n1_left = board.create('line', [[5,3],[8,0]], {straightFirst: true,
+     straightLast: false, strokecolor: 'grey'});
+
+   // FINISH THESE LINES!
+   var n2_right = board.create('line', [[15,5],[14,6]], {straightFirst: true,
+     straightLast: true, strokecolor: 'grey'});
+   var n2_left = board.create('line', [[5,3],[8,0]], {straightFirst: true,
+     straightLast: false, strokecolor: 'grey'});
+
+   // lines for wavefronts result in the formation of semicircle with line at midpoint in medium of n2 (represented by Quadrant IV)
+   // need intersection with x-axis to have point indicators
+   var p0l = board.create('point', [6, 2]);
+   var p0r = board.create('point', [12, 8]);
+   p0l.setLabel(' ');
+   p0r.setLabel(' ');
+   var l0 = board.create('line', [p0l, p0r],{straightFirst: false, straightLast: false, strokecolor: 'blue'});
+   var s0r = board.create('point', [8,0], {visible:false});
+   s0r.setLabel(' ');
+   var s0l = board.create('point', [8,0], {visible:false});
+   s0l.setLabel(' ');
+   var s1r = board.create('point', [12,0], {visible:false});
+   s1r.setLabel(' ');
+   var s1l = board.create('point', [12,0], {visible:false});
+   s1l.setLabel(' ');
+   var s3r = board.create('point', [16,0], {visible:false});
+   s3r.setLabel(' ');
+   var s3l = board.create('point', [16,0], {visible:false});
+   s3l.setLabel(' ');
+   var s6r = board.create('point', [20,0], {visible:false});
+   s6r.setLabel(' ');
+   var s6l = board.create('point', [20,0], {visible:false});
+   s6l.setLabel(' ');
+
+//
+   var p1l = board.create('point', [4,4]);
+   var p1r = board.create('point', [10,10]);
+   p1l.setLabel(' ');
+   p1r.setLabel(' ');
+   var l1 = board.create('line',[p1l,p1r],{straightFirst:false, straightLast:false, strokecolor:'green'});
+
+   var s2r = board.create('point', [8,0], {visible:false});
+   s2r.setLabel(' ');
+   var s2l = board.create('point', [8,0], {visible:false});
+   s2l.setLabel(' ');
+
+   var s4r = board.create('point', [12,0], {visible:false});
+   s4r.setLabel(' ');
+   var s4l = board.create('point', [12,0], {visible:false});
+   s4l.setLabel(' ');
+
+   var s7r = board.create('point', [16,0], {visible:false});
+   s7r.setLabel(' ');
+   var s7l = board.create('point', [16,0], {visible:false});
+   s7l.setLabel(' ');
+//
+   var p2l = board.create('point', [2,6]);
+   var p2r = board.create('point', [8,12]);
+   p2l.setLabel(' ');
+   p2r.setLabel(' ');
+   var l2 = board.create('line',[p2l,p2r],{straightFirst:false, straightLast:false, strokecolor:'blue'});
+
+   var s5r = board.create('point', [8,0], {visible:false});
+   s5r.setLabel(' ');
+   var s5l = board.create('point', [8,0], {visible:false});
+   s5l.setLabel(' ');
+
+   var s8r = board.create('point', [12,0], {visible:false});
+   s8r.setLabel(' ');
+   var s8l = board.create('point', [12,0], {visible:false});
+   s8l.setLabel(' ');
+
+//
+   var p3l = board.create('point', [0,8]);
+   var p3r = board.create('point', [6,14]);
+   p3l.setLabel(' ');
+   p3r.setLabel(' ');
+   var l3 = board.create('line',[p3l,p3r],{straightFirst:false, straightLast:false, strokecolor:'green'});
+   var s9r = board.create('point', [8,0], {visible:false});
+   s9r.setLabel(' ');
+   var s9l = board.create('point', [8,0], {visible:false});
+   s9l.setLabel(' ');
+
+
+   function nextStep() {
+     if(t==0){
+       p0l.moveTo([8, 0], 1500);
+       p0r.moveTo([14, 6], 1500, {
+                  callback: function () {
+                    // for semicircle in Quad IV, put right most point before left most
+                    // need semicircle to not have point indicators
+                    // need this to wait until the point p0l finishes moving
+                    // Should be able to rewrite to be +-1 re: X coord of p0r
+                        s0r.setAttribute({visible:true});
+                        s0l.setAttribute({visible:true});
+                        var s0 = board.create('semicircle', [s0r,s0l],{strokecolor:'blue'});
+                        s0r.moveTo([9,0], 1500);
+                        s0l.moveTo([7,0], 1500);
+                    }});
+      p1l.moveTo([6,2],1500);
+      p1r.moveTo([12,8],1500);
+
+      p2l.moveTo([4,4],1500);
+      p2r.moveTo([10,10],1500);
+
+      p3l.moveTo([2,6],1500);
+      p3r.moveTo([8,12],1500);
+    }
+    if (t==1) {
+      p0l.moveTo([12, 0], 1500);
+      p0r.moveTo([16, 4], 1500, {
+                 callback: function () {
+                   // need this to wait until the point p0l finishes moving
+                   // Should be able to rewrite to be +-1 re: X coord of p0r
+                    s1r.setAttribute({visible:true});
+                    s1l.setAttribute({visible:true});
+                    var s1 = board.create('semicircle', [s1r,s1l],{strokecolor:'blue'});
+                    s1r.moveTo([13,0], 1500);
+                    s1l.moveTo([11,0], 1500);
+                }});
+
+
+      p1l.moveTo([8,0],1500);
+      p1r.moveTo([14,6],1500, {
+              callback: function () {
+                s0r.moveTo([10,0], 1500);
+                s0l.moveTo([6,0], 1500);
+
+                s2r.setAttribute({visible:true});
+                s2l.setAttribute({visible:true});
+                var s2 = board.create('semicircle', [s2r,s2l],{strokecolor:'green'});
+                s2r.moveTo([9,0], 1500);
+                s2l.moveTo([7,0], 1500);
+              }});
+
+      p2l.moveTo([6,2],1500);
+      p2r.moveTo([12,8],1500);
+
+      p3l.moveTo([4,4],1500);
+      p3r.moveTo([10,10],1500);
+    }
+    if (t==2) {
+      p0l.moveTo([16, 0], 1500);
+      p0r.moveTo([18, 2], 1500, {
+                 callback: function () {
+                   // need this to wait until the point p0l finishes moving
+                   // Should be able to rewrite to be +-1 re: X coord of p0r
+                    s3r.setAttribute({visible:true});
+                    s3l.setAttribute({visible:true});
+                    var s3 = board.create('semicircle', [s3r,s3l],{strokecolor:'blue'});
+                    s3r.moveTo([17,0], 1500);
+                    s3l.moveTo([15,0], 1500);
+                }});
+
+
+      p1l.moveTo([12,0],1500);
+      p1r.moveTo([16,4],1500, {
+              callback: function () {
+                s1r.moveTo([14,0], 1500);
+                s1l.moveTo([10,0], 1500);
+
+                s4r.setAttribute({visible:true});
+                s4l.setAttribute({visible:true});
+                var s4 = board.create('semicircle', [s4r,s4l],{strokecolor:'green'});
+                s4r.moveTo([13,0], 1500);
+                s4l.moveTo([11,0], 1500);
+              }});
+
+      p2l.moveTo([8,0],1500);
+      p2r.moveTo([14,6],1500,{
+              callback: function () {
+                s0r.moveTo([11,0], 1500);
+                s0l.moveTo([5,0], 1500);
+
+                s2r.moveTo([10,0], 1500);
+                s2l.moveTo([6,0], 1500);
+
+                s5r.setAttribute({visible:true});
+                s5l.setAttribute({visible:true});
+                var s5 = board.create('semicircle', [s5r,s5l],{strokecolor:'blue'});
+                s5r.moveTo([9,0], 1500);
+                s5l.moveTo([7,0], 1500);
+              }});
+
+      p3l.moveTo([6,2],1500);
+      p3r.moveTo([12,8],1500);
+    }
+    if (t==3) {
+      p0l.moveTo([20, 0], 1500);
+      p0r.moveTo([20, 0], 1500, {
+                 callback: function () {
+                   // need this to wait until the point p0l finishes moving
+                   // Should be able to rewrite to be +-1 re: X coord of p0r
+                    s6r.setAttribute({visible:true});
+                    s6l.setAttribute({visible:true});
+                    var s6 = board.create('semicircle', [s6r,s6l],{strokecolor:'blue'});
+                    s6r.moveTo([21,0], 1500);
+                    s6l.moveTo([19,0], 1500);
+                }});
+
+
+      p1l.moveTo([16,0],1500);
+      p1r.moveTo([18,2],1500, {
+              callback: function () {
+                s3r.moveTo([18,0], 1500);
+                s3l.moveTo([14,0], 1500);
+
+                s7r.setAttribute({visible:true});
+                s7l.setAttribute({visible:true});
+                var s7 = board.create('semicircle', [s7r,s7l],{strokecolor:'green'});
+                s7r.moveTo([17,0], 1500);
+                s7l.moveTo([15,0], 1500);
+              }});
+
+      p2l.moveTo([12,0],1500);
+      p2r.moveTo([16,4],1500,{
+              callback: function () {
+                s1r.moveTo([15,0], 1500);
+                s1l.moveTo([9,0], 1500);
+
+                s4r.moveTo([14,0], 1500);
+                s4l.moveTo([10,0], 1500);
+
+                s8r.setAttribute({visible:true});
+                s8l.setAttribute({visible:true});
+                var s8 = board.create('semicircle', [s8r,s8l],{strokecolor:'blue'});
+                s8r.moveTo([13,0], 1500);
+                s8l.moveTo([11,0], 1500);
+              }});
+
+      p3l.moveTo([8,0],1500);
+      p3r.moveTo([14,6],1500, {
+              callback: function () {
+                s0r.moveTo([12,0], 1500);
+                s0l.moveTo([4,0], 1500);
+
+                s2r.moveTo([11,0], 1500);
+                s2l.moveTo([5,0], 1500);
+
+                s5r.moveTo([10,0], 1500);
+                s5l.moveTo([6,0], 1500);
+
+                s9r.setAttribute({visible:true});
+                s9l.setAttribute({visible:true});
+                var s5 = board.create('semicircle', [s5r,s5l],{strokecolor:'green'});
+                s9r.moveTo([9,0], 1500);
+                s9l.moveTo([7,0], 1500);
+              }});
+    }
+
+
+    t=t+1;
+
+     // p1l.moveTo([8, 0], 1500);
+     // p1r.moveTo([14, 6], 1500, {
+     //            callback: function () {
+     //              // need this to wait until the point p1l finishes moving
+     //                   var s1r = board.create('point', [9,0]);
+     //                   var s1l = board.create('point', [7,0]);
+     //                   var s1 = board.create('semicircle', [s1r,s1l],{strokecolor:'green'});
+     //              }});
+
+   }
+
+  </script>
+</body>
